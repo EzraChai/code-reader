@@ -1,10 +1,33 @@
 {
   "expo": {
+    "userInterfaceStyle": "dark",
     "scheme": "acme",
     "web": {
       "bundler": "metro"
     },
-    "name": "code-reader",
-    "slug": "code-reader"
+    "name": "QR Reader",
+    "slug": "code-reader",
+    "orientation": "portrait",
+    "splash": {
+      "image": "assets/splash.png",
+      "backgroundColor": "#000000"
+    },
+    "icon": "assets/icon.png",
+    "plugins": [
+      [
+        "expo-barcode-scanner",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access camera."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "28e90471-c822-409f-9db9-1ba4ca4c6d24"
+      }
+    },
+    "android": {
+      "package": "com.juanzhe.codereader"
+    }
   }
 }

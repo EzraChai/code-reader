@@ -6,17 +6,19 @@ export default function MainLayout() {
       <Stack.Screen
         name="index"
         options={{
-          statusBarColor: "black",
-          statusBarStyle: "auto",
+          statusBarAnimation: "fade",
+          statusBarColor: "#f2f2f2",
+          statusBarStyle: "dark",
           headerShown: false,
           orientation: "portrait",
         }}
       />
       <Stack.Screen
-        name="scan"
+        name="scanCamera"
         options={{
-          statusBarColor: "black",
-          statusBarStyle: "auto",
+          statusBarAnimation: "fade",
+          statusBarColor: "#f2f2f2",
+          statusBarStyle: "dark",
           headerShown: false,
           orientation: "portrait",
         }}

@@ -13,16 +13,6 @@ export default function MainLayout() {
           orientation: "portrait",
         }}
       />
-      <Stack.Screen
-        name="scanCamera"
-        options={{
-          statusBarAnimation: "fade",
-          statusBarColor: "#f2f2f2",
-          statusBarStyle: "dark",
-          headerShown: false,
-          orientation: "portrait",
-        }}
-      />
     </Stack>
   );
 }

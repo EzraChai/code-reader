@@ -6,12 +6,16 @@ import {
   Vibration,
   Pressable,
   Button,
+  Image,
 } from "react-native";
 import { Camera, CameraType, FlashMode, PermissionStatus } from "expo-camera";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as Clipboard from "expo-clipboard";
 import * as Linking from "expo-linking";
+import * as ImagePicker from "expo-image-picker";
 import * as BarCodeScanner from "expo-barcode-scanner";
+
+const chuiImage = require("../assets/chui.png");
 
 export default function ScanPage() {
   const [cameraType, setCameraType] = useState<CameraType>(CameraType.back);
@@ -22,6 +26,28 @@ export default function ScanPage() {
 
   const requestCameraPermission = async () => {
     await requestPermission();
+  };
+
+  const pickImageAsync = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      quality: 1,
+    });
+
+    if (result.canceled) {
+      return;
+    }
+
+    const scannedResult = await BarCodeScanner.scanFromURLAsync(
+      result.assets[0].uri
+    );
+
+    if (!scannedResult[0]) {
+      setScanned(true);
+      setData("Opps, QR Code not found!");
+      return;
+    }
+
+    handleBarCodeScanned(scannedResult[0]);
   };
 
   useEffect(() => {
@@ -48,11 +74,12 @@ export default function ScanPage() {
 
   const handleBarCodeScanned = async ({ data }) => {
     Vibration.vibrate(200);
+    setData(data);
+
     setScanned(true);
     if (await Linking.canOpenURL(data)) {
       Linking.openURL(data);
     }
-    setData(data);
   };
 
   const copyToClipboard = async () => {
@@ -127,7 +154,18 @@ export default function ScanPage() {
           </Pressable>
         </>
       )}
-      <View className="absolute bottom-0 z-30 w-full h-32 bg-[#f2f2f2] " />
+      <View className="absolute bottom-0 z-30 flex-row justify-between w-full h-32 bg-[#f2f2f2] ">
+        <View className="items-center justify-center mt-6 ml-6 w-14 h-14 ">
+          <TouchableOpacity onPressOut={pickImageAsync}>
+            <View className="items-center justify-center w-12 h-12 border border-gray-800 rounded-lg ">
+              <MaterialIcons name="image" size={36} color="black" />
+            </View>
+          </TouchableOpacity>
+        </View>
+        <View className="mr-6">
+          <Image source={chuiImage} className="w-32 h-24" />
+        </View>
+      </View>
     </View>
   );
 }
